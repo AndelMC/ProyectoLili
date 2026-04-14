@@ -480,9 +480,16 @@
         </div>
 
 
-        <button title="INICIO" id="tulipan-button" onclick="window.location.href='index.html'">
+        <button title="INICIO" id="tulipan-button" onclick="navigateTo('inicio.html')" style="background: linear-gradient(135deg, #f6d654 0%, #eab308 100%); color: #422006; border: none; box-shadow: 0 4px 15px rgba(246,214,84,0.4);">
             <i class="fa-solid fa-house-chimney"></i> 
         </button>
+        
+        <script>
+            function navigateTo(page) {
+                const currentParams = window.location.search;
+                window.location.href = page + currentParams;
+            }
+        </script>
         
         <div class="flower">
             <img class="imagen"

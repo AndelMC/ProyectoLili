@@ -6,40 +6,53 @@ body {
     width: 100vw;
     margin: 0;
     overflow: hidden;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    background: rgb(255,255,255);
-    background: radial-gradient(circle, #FFFFFF 40%, #BDE0FE 60%, #A2D2FF 80%);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    /* Spring background palette */
+    background: radial-gradient(circle at top left, #fff1eb 0%, #ace0f9 100%);
+    background: radial-gradient(circle at center, #ffd1dc 0%, #fff1eb 40%, #e2f0cb 80%, #ace0f9 100%);
 }
 
   
 /* Estilos para títulos */
 .title, .subtitle {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-size: 4rem; /* Tamaño en PC */
+    font-family: 'Noto Serif', serif;
+    font-weight: 700;
+    font-size: 3.5rem; /* Slightly smaller to prevent breaking lines */
     position: absolute;
     text-align: center;
-    width: 100%; /* Asegurar que ocupe el ancho */
+    width: 100%; 
     padding: 10px;
     border-radius: 10px;
-    color: black;
-    text-shadow: 2px 2px 4px white;
+    color: #db2777; /* Rose-600 */
+    text-shadow: 2px 2px 0px white, -1px -1px 0px white, 1px -1px 0px white, -1px 1px 0px white; /* Stronger outline */
+    z-index: 10;
 }
 
 .title {
-    top: 5%; /* Ajusta para mejor alineación */
-    margin-top: 0; /* Evita margen adicional que desplace el título */
+    top: 2%; 
+    margin-top: 0; 
 }
 
 .subtitle {
-    bottom: 5%;
-    margin-bottom: 0; /* Evita que se mueva innecesariamente */
+    bottom: 4%;
+    margin-bottom: 0; 
 }
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.05); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.05); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+  }
 
   .sanrio {
     width: 1rem;
     height: 1rem;
     background-color: transparent;
     margin-left: -4rem;
+    animation: heartbeat 1.5s ease-in-out infinite;
     box-shadow: /* heart */
       -14rem 0rem red, 
       -14rem -1rem red,
@@ -432,14 +445,32 @@ body {
 
 
 /* Ajustes para pantallas pequeñas */
+@keyframes heartbeatTablet {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.05); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.05); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
 @media (max-width: 768px) {
     .title, .subtitle {
         font-size: 2.5rem; /* Tamaño en tabletas */
     }
 
     .sanrio {
-        transform: scale(1);
+        animation: heartbeatTablet 1.5s ease-in-out infinite;
     }
+}
+
+@keyframes heartbeatMobile {
+    0% { transform: scale(0.8); }
+    15% { transform: scale(0.85); }
+    30% { transform: scale(0.8); }
+    45% { transform: scale(0.85); }
+    60% { transform: scale(0.8); }
+    100% { transform: scale(0.8); }
 }
 
 @media (max-width: 480px) {
@@ -448,6 +479,6 @@ body {
     }
 
     .sanrio {
-        transform: scale(0.8);
+        animation: heartbeatMobile 1.5s ease-in-out infinite;
     }
 }

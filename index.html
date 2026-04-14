@@ -1,142 +1,355 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="light" lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Flores Amarillas para ti</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Flores Amarillas</title>
     <link rel="icon" type="image/x-icon" href="source/floramarilla.ico">
-
-    <!-- Fuente de Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;family=Pacifico&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                "colors": {
+                        "primary": "#705d00",
+                        "surface": "#fff8f8",
+                        "background": "#fff8f8",
+                        "on-surface": "#25181d",
+                        "on-surface-variant": "#4c4735",
+                        "tertiary": "#8a4a64",
+                        "tertiary-container": "#ffc9db",
+                        "primary-container": "#f6d654",
+                        "secondary-container": "#bbee99",
+                        "surface-container": "#ffe8ee",
+                        "surface-container-low": "#fff0f3",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#fce2e9",
+                        "surface-container-highest": "#f6dce3",
+                        "outline-variant": "#cfc6af"
+                },
+                "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"],
+                        "signature": ["Pacifico"]
+                }
+              },
+            },
+          }
+    </script>
     <style>
-        body {
-            background-image: url('source/fondo1.jpg'); 
-            background-size: cover;
-            background-position: center;
-            color: white;
-            font-family: 'Pacifico', cursive;
-            text-align: center;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            margin: 0;
-            padding: 20px;
-            overflow: hidden; /* Evita que los corazones creen barras de desplazamiento */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
         }
-
-        h1 {
-            font-size: 3rem; 
-            margin: 0;
-            color: #ffafcc;
-            font-weight: 200;
-            background-color: #ffe5ec;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
+        .bloom-effect {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
-        .btn-heart {
-            font-size: 18px;
-            padding: 10px 20px; 
-            background-color: #ff4081;
-            border: none;
-            color: white;
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 30px;
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.2s;
-            max-width: fit-content;
-            white-space: nowrap;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        .bloom-effect:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px -15px rgba(112, 93, 0, 0.15);
         }
-
-        .btn-heart i {
-            margin-left: 8px;
+        .gold-silk-gradient {
+            background: linear-gradient(135deg, #f6d654 0%, #eab308 100%);
+            color: #422006;
         }
+        html { scroll-behavior: smooth; }
 
-        .btn-heart:hover {
-            background-color: #d52879;
-            transform: scale(1.05);
-        }
-
-        /* 🌟 Estilos para la lluvia de corazones */
-        .heart {
-            position: fixed;
-            top: -10px; /* Inicia fuera de la pantalla */
-            left: 50%;
-            font-size: 20px;
-            opacity: 0.8;
-            color: pink;
-            animation: fall linear infinite;
-            pointer-events: none; /* No interfiere con clics */
-        }
-
-        /* Animación de caída */
+        /* 🌟 Estilos para la lluvia de primavera */
         @keyframes fall {
             to {
-                transform: translateY(100vh);
+                transform: translateY(110vh) rotate(360deg);
                 opacity: 0;
             }
         }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-                padding: 8px 15px;
-            }
-
-            .btn-heart {
-                font-size: 16px;
-                padding: 8px 16px;
-            }
+        .confetti {
+            position: fixed;
+            top: -20px;
+            z-index: 0; /* Behind panels, or maybe in front: z-index: 50 */
+            opacity: 0.8;
+            pointer-events: none; /* No interfiere con clics */
+            animation: fall linear infinite;
         }
     </style>
 </head>
-<body>
-    <h1>¡Feliz Día de las Flores Amarillas!</h1>
-    <a href="inicio.html" class="btn-heart">
-        Mira lo que hice para ti 
-        <i class="fa-solid fa-heart"></i>
-    </a>
+<body class="bg-background text-on-background font-body">
 
-    <!-- 🌟 Script para la lluvia de corazones -->
-    <script>
-        function createHeart() {
-            const heart = document.createElement("span");
-            heart.classList.add("heart");
-            heart.innerHTML = "🩵"; // "💛" "🩷"  "🌸"
-            document.body.appendChild(heart);
+<main class="min-h-screen">
 
-            // Posición aleatoria en el ancho de la pantalla
-            heart.style.left = Math.random() * 100 + "vw";
+    <!-- SECCIÓN CREADOR (Solo se muestra cuando no hay parámetros de URL) -->
+    <section id="seccion-creador" class="hidden min-h-screen w-full items-center justify-center relative px-6 py-12 bg-cover bg-center bg-fixed" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('source/form.jpg');">
+        <div class="z-10 max-w-2xl w-full text-center space-y-6">
+            <h1 class="font-headline text-5xl md:text-6xl text-white leading-tight tracking-tight mt-4 drop-shadow-md">
+                Mis Flores Amarillas
+            </h1>
+            <p class="font-body text-xl text-stone-100 drop-shadow">
+                Crea una experiencia romántica inolvidable.
+            </p>
 
-            // Tamaño aleatorio de los corazones
-            heart.style.fontSize = Math.random() * 20 + 10 + "px";
+            <div class="mt-8 bg-white/90 backdrop-blur-2xl p-8 md:p-12 rounded-[2rem] shadow-2xl border border-yellow-500/20 text-left">
+                <h3 class="font-headline text-2xl text-primary mb-2 text-center">Menú Mágico de Creación</h3>
+                <p class="font-body text-stone-600 text-center mb-6">Edita los enunciados para hacer esto más especial, o déjalos por defecto.</p>
+                
+                <div class="space-y-5">
+                    <div>
+                        <label class="block font-label text-sm font-bold text-stone-700 uppercase tracking-widest mb-1">1. Saludo principal</label>
+                        <input type="text" id="inputNombre" value="mi preciosa Lupita" class="w-full rounded-xl border-stone-300 font-body text-stone-800 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 px-4 py-3 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block font-label text-sm font-bold text-stone-700 uppercase tracking-widest mb-1">2. Apodo cariñoso</label>
+                        <input type="text" id="inputApodo" value="mi Sugarboo" class="w-full rounded-xl border-stone-300 font-body text-stone-800 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 px-4 py-3 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block font-label text-sm font-bold text-stone-700 uppercase tracking-widest mb-1">3. Mensaje Final</label>
+                        <input type="text" id="inputMensaje" value="Eres mi razón de ser" class="w-full rounded-xl border-stone-300 font-body text-stone-800 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 px-4 py-3 bg-white">
+                    </div>
 
-            // Velocidad aleatoria de caída
-            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+                    <div>
+                        <label class="block font-label text-sm font-bold text-stone-700 uppercase tracking-widest mb-1">4. Cita Especial</label>
+                        <input type="text" id="inputCita" value='"Como el girasol busca siempre la luz, mi corazón siempre encuentra el camino hacia ti."' class="w-full rounded-xl border-stone-300 font-body text-stone-800 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 px-4 py-3 bg-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block font-label text-sm font-bold text-stone-700 uppercase tracking-widest mb-1">5. Cuerpo de la nota</label>
+                        <textarea id="inputCuerpo" class="w-full rounded-xl border-stone-300 font-body text-stone-800 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 px-4 py-3 bg-white" rows="4">Hoy las calles se visten de amarillo, pero ninguna flor brilla tanto como tu sonrisa. He seleccionado estas flores no solo por su belleza, sino por lo que representan: la alegría pura, la lealtad eterna y la calidez que traes a mi vida cada día.</textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block font-label text-sm font-bold text-stone-700 uppercase tracking-widest mb-1">6. Firma</label>
+                        <input type="text" id="inputFirma" value="Con cariño y amor, Miguel" class="w-full rounded-xl border-stone-300 font-body text-stone-800 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 px-4 py-3 bg-white">
+                    </div>
+                    
+                    <button onclick="generarLink()" class="w-full mt-6 gold-silk-gradient py-4 rounded-full font-headline text-xl font-bold font-serif bloom-effect flex items-center justify-center gap-2 shadow-lg">
+                        Generar Enlace <span class="material-symbols-outlined">link</span>
+                    </button>
 
-            // Elimina el corazón después de caer
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+                    <div id="resultadoLink" class="hidden mt-6 bg-yellow-100 p-5 rounded-2xl border border-yellow-300">
+                        <p class="font-label text-sm font-bold text-stone-800 uppercase mb-2">Copia y envía este enlace:</p>
+                        <textarea id="textoLink" class="w-full rounded-xl border-yellow-400 bg-white font-body text-sm text-stone-600 p-3 shadow-inner" rows="3" readonly></textarea>
+                        <div class="flex gap-4 mt-4">
+                            <button onclick="copiarLink()" class="flex-1 bg-white border border-stone-300 hover:bg-stone-50 text-stone-800 py-3 rounded-xl font-body font-semibold transition-colors flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-sm">content_copy</span> Copiar
+                            </button>
+                            <a id="previewLink" href="#" class="flex-1 gold-silk-gradient py-3 rounded-xl font-headline font-bold font-serif text-center transition-colors flex items-center justify-center gap-2 shadow-md">
+                                <span class="material-symbols-outlined text-sm">visibility</span> Probar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DESTINATARIO (Solo se muestra cuando HAY parámetros de URL) -->
+    <div id="seccion-destinatario" class="hidden">
+        
+        <!-- 1ra Parte: Flower Showcase (Bento Grid) -->
+        <section class="py-20 px-8 max-w-7xl mx-auto">
+            <div class="mb-14 text-center">
+                <span class="font-signature text-3xl text-yellow-600 block mb-2">Para ti</span>
+                <h2 class="font-headline text-4xl md:text-5xl text-on-surface mb-4 mt-2">El Lenguaje del Oro</h2>
+                <p class="font-body text-on-surface-variant text-lg">Cada pétalo cuenta una historia diferente de admiración.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-auto">
+                <!-- Girasoles -->
+                <div class="md:col-span-8 group relative overflow-hidden rounded-[2rem] bloom-effect bg-surface-container shadow-sm min-h-[220px] md:min-h-[250px]">
+                    <img alt="Girasoles" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="source/flores/girasoles.jpg"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
+                        <span class="inline-block bg-yellow-500/90 text-yellow-950 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2 md:mb-3 w-fit backdrop-blur-sm">Lealtad</span>
+                        <h3 class="font-headline text-2xl md:text-3xl mb-1 md:mb-2">Girasoles Majestuosos</h3>
+                        <p class="font-body text-stone-200 text-sm max-w-md hidden md:block">Simbolizan la adoración incondicional y la fuerza para seguir siempre la luz.</p>
+                    </div>
+                </div>
+                <!-- Rosas -->
+                <div class="md:col-span-4 group relative overflow-hidden rounded-[2rem] bloom-effect bg-surface-container-high shadow-sm min-h-[220px] md:min-h-[250px]">
+                    <img alt="Rosas Amarillas" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="source/flores/rosasseda.jpg"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
+                        <span class="inline-block bg-pink-500/90 text-pink-50 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2 md:mb-3 w-fit backdrop-blur-sm">Amor</span>
+                        <h3 class="font-headline text-xl md:text-2xl mb-1 md:mb-2">Rosas de Seda</h3>
+                        <p class="font-body text-stone-200 text-xs md:text-sm hidden md:block">La promesa de una alegría compartida y un lazo fuerte.</p>
+                    </div>
+                </div>
+                <!-- Tulipanes -->
+                <div class="md:col-span-4 group relative overflow-hidden rounded-[2rem] bloom-effect bg-surface-container-low shadow-sm min-h-[220px] md:min-h-[250px]">
+                    <img alt="Tulipanes" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="source/flores/tulipanes.jpg"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
+                        <span class="inline-block bg-orange-500/90 text-orange-50 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2 md:mb-3 w-fit backdrop-blur-sm">Esperanza</span>
+                        <h3 class="font-headline text-xl md:text-2xl mb-1 md:mb-2">Tulipanes Dorados</h3>
+                        <p class="font-body text-stone-200 text-xs md:text-sm hidden md:block">Primavera eterna en nuestra historia.</p>
+                    </div>
+                </div>
+                <!-- Peonías -->
+                <div class="md:col-span-4 group relative overflow-hidden rounded-[2rem] bloom-effect bg-surface-container shadow-sm min-h-[220px] md:min-h-[250px]">
+                    <img alt="Peonías" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="source/flores/peonias.jpg"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
+                        <span class="inline-block bg-rose-400/90 text-white px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2 md:mb-3 w-fit backdrop-blur-sm">Ternura</span>
+                        <h3 class="font-headline text-xl md:text-2xl mb-1 md:mb-2">Peonías al Alba</h3>
+                        <p class="font-body text-stone-200 text-xs md:text-sm hidden md:block">Belleza pura, prosperidad y el inicio de un cariño sincero que perdura.</p>
+                    </div>
+                </div>
+                <!-- Gerberas -->
+                <div class="md:col-span-4 group relative overflow-hidden rounded-[2rem] bloom-effect bg-surface-container-high shadow-sm min-h-[220px] md:min-h-[250px]">
+                    <img alt="Gerberas" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="source/flores/gerberas.jpg"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
+                        <span class="inline-block bg-teal-500/90 text-white px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2 md:mb-3 w-fit backdrop-blur-sm">Alegría</span>
+                        <h3 class="font-headline text-xl md:text-2xl mb-1 md:mb-2">Gerberas de Luz</h3>
+                        <p class="font-body text-stone-200 text-xs md:text-sm hidden md:block">Sonrisas sinceras e inocencia que ilumina los días nublados.</p>
+                    </div>
+                </div>
+                <!-- Lirios -->
+                <div class="md:col-span-12 group relative overflow-hidden rounded-[2rem] bloom-effect bg-surface-container-highest shadow-sm min-h-[220px] md:min-h-[300px]">
+                    <img alt="Lirios" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 object-[center_30%]" src="source/flores/lirios.jpg"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-8 text-white">
+                        <span class="inline-block bg-green-600/90 text-green-50 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2 md:mb-3 w-fit backdrop-blur-sm">Gratitud</span>
+                        <h3 class="font-headline text-2xl md:text-3xl mb-1 md:mb-2">Lirios del Sol</h3>
+                        <p class="font-body text-stone-200 text-sm max-w-xl hidden md:block">Una expresión vibrante de agradecimiento por tu presencia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2da Parte: Personal Message Section -->
+        <section class="py-20 px-6 bg-surface" id="message">
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-surface-container-lowest p-12 md:p-20 rounded-[2.5rem] shadow-xl border border-yellow-500/10 text-center relative overflow-hidden bg-gradient-to-b from-white to-yellow-50/30">
+                    <div class="absolute top-0 right-0 p-8 opacity-10">
+                        <span class="material-symbols-outlined text-9xl text-yellow-600" data-icon="format_quote">format_quote</span>
+                    </div>
+                    <div class="relative z-10 space-y-8">
+                        <span class="font-label text-xs tracking-widest uppercase text-tertiary font-bold text-yellow-700">Una nota para ti</span>
+                        <h2 id="notaCita" class="font-headline text-3xl md:text-4xl text-on-surface italic leading-relaxed text-stone-800">"Como el girasol busca siempre la luz, mi corazón siempre encuentra el camino hacia ti."</h2>
+                        <div class="w-16 h-px bg-yellow-400 mx-auto"></div>
+                        <p id="notaCuerpo" class="font-body text-on-surface-variant leading-relaxed text-lg text-stone-600">
+                            Hoy las calles se visten de amarillo, pero ninguna flor brilla tanto como tu sonrisa. He seleccionado estas flores no solo por su belleza, sino por lo que representan: la alegría pura, la lealtad eterna y la calidez que traes a mi vida cada día.
+                        </p>
+                        <p id="notaFirma" class="font-signature text-3xl text-yellow-600 pt-6">Con cariño y amor, Miguel</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3ra Parte: Call to Action (Ir a inicio.html) -->
+        <section class="py-24 px-6 relative overflow-hidden text-center bg-yellow-50">
+            <div class="max-w-3xl mx-auto relative z-10 space-y-8">
+                <h2 class="font-headline text-4xl md:text-5xl text-stone-800">¿Estás lista para tu sorpresa?</h2>
+                <p class="font-body text-stone-600 text-lg mb-8">
+                    He preparado algo más para ti con todo mi cariño.
+                </p>
+                <!-- Botón con toques dorados -->
+                <a id="cta-button" href="#" class="inline-flex items-center gap-3 gold-silk-gradient px-12 py-5 rounded-full text-xl font-bold font-serif shadow-[0_10px_20px_rgba(246,214,84,0.3)] bloom-effect group mt-4">
+                    Mira lo que hice para ti
+                    <span class="material-symbols-outlined transition-transform group-hover:scale-125" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+</main>
+
+<script>
+    // Lógica principal
+    const urlParams = new URLSearchParams(window.location.search);
+    const nameParam = urlParams.get('n');
+    const petnameParam = urlParams.get('p');
+    const mParam = urlParams.get('m');
+    const qParam = urlParams.get('q');
+    const bParam = urlParams.get('b');
+    const fParam = urlParams.get('f');
+    
+    const seccionCreador = document.getElementById('seccion-creador');
+    const seccionDestinatario = document.getElementById('seccion-destinatario');
+    const ctaButton = document.getElementById('cta-button');
+
+    if (nameParam || petnameParam || mParam) {
+        // Es el destinatario
+        // Mostrar la landing page de flores y ocultar creador
+        seccionDestinatario.classList.remove('hidden');
+        seccionCreador.classList.add('hidden');
+        
+        if (qParam) document.getElementById('notaCita').textContent = qParam;
+        if (bParam) document.getElementById('notaCuerpo').textContent = bParam;
+        if (fParam) document.getElementById('notaFirma').textContent = fParam;
+
+        // Configurar la redirección al inicio.html para ver las animaciones CSS
+        let redirectUrl = 'inicio.html?' + urlParams.toString();
+        ctaButton.href = redirectUrl;
+    } else {
+        // Es el creador, mostrar solo la sección creador
+        seccionCreador.classList.remove('hidden');
+        seccionCreador.classList.add('flex');
+        seccionDestinatario.classList.add('hidden');
+    }
+    
+    function generarLink() {
+        const nombre = document.getElementById('inputNombre').value.trim();
+        const apodo = document.getElementById('inputApodo').value.trim();
+        const mensaje = document.getElementById('inputMensaje').value.trim();
+        const cita = document.getElementById('inputCita').value.trim();
+        const cuerpo = document.getElementById('inputCuerpo').value.trim();
+        const firma = document.getElementById('inputFirma').value.trim();
+        
+        if (!nombre && !apodo && !mensaje) {
+            alert("¡Por favor ingresa algunos datos para generar!");
+            return;
         }
+        
+        const params = new URLSearchParams();
+        if(nombre) params.set('n', nombre);
+        if(apodo) params.set('p', apodo);
+        if(mensaje) params.set('m', mensaje);
+        if(cita) params.set('q', cita);
+        if(cuerpo) params.set('b', cuerpo);
+        if(firma) params.set('f', firma);
+        
+        const baseUrl = window.location.origin + window.location.pathname;
+        const fullLink = baseUrl + '?' + params.toString();
+        
+        document.getElementById('resultadoLink').classList.remove('hidden');
+        document.getElementById('textoLink').value = fullLink;
+        document.getElementById('previewLink').href = fullLink;
+    }
+    
+    function copiarLink() {
+        const textoLink = document.getElementById('textoLink');
+        textoLink.select();
+        document.execCommand('copy');
+        alert("¡Enlace copiado al portapapeles!");
+    }
 
-        // Generar corazones cada 300ms
-        setInterval(createHeart, 300);
-    </script>
+    // 🌟 Script para la lluvia de confetis de primavera
+    function createConfetti() {
+        const confetti = document.createElement("span");
+        confetti.classList.add("confetti");
+        
+        // Formas representativas de la primavera
+        const shapes = ["🌸", "🌼", "🌻", "🌿", "✨", "🍃", "🦋"];
+        confetti.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+        
+        document.body.appendChild(confetti);
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        // Posición aleatoria
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.fontSize = Math.random() * 15 + 15 + "px"; // Entre 15px y 30px
+        
+        // Duración de la caída
+        confetti.style.animationDuration = Math.random() * 4 + 3 + "s"; // Entre 3 y 7 segundos
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 7000);
+    }
+
+    // Generar confeti cada 350ms
+    setInterval(createConfetti, 350);
+</script>
 </body>
 </html>

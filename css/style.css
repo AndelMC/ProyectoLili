@@ -1414,17 +1414,13 @@ body {
     line-height: 1; 
 }
 
-/* Posicionamiento en el lado izquierdo */
-#home-button { top: 20px; left: 20px; position: fixed; }
-#tulipan-button { top: 90px; left: 20px; position: fixed; }
-#girasol-button { top: 160px; left: 20px; position: fixed; }
+/* Posicionamiento en el lado izquierdo (Flores) */
+#tulipan-button { top: 20px; left: 20px; position: fixed; }
+#girasol-button { top: 90px; left: 20px; right: auto; position: fixed; }
 
-/* Posicionamiento en el lado derecho para el botón de Sugarboo */
-#sugar-button {
-    position: fixed;
-    top: 20px; /* Ajusta la posición vertical */
-    right: 20px; /* Lo coloca en la esquina derecha */
-}
+/* Posicionamiento en el lado derecho (Navegación / Corazón) */
+#home-button { top: 20px; right: 20px; left: auto; position: fixed; }
+#sugar-button { top: 90px; right: 20px; position: fixed; }
 
 
 .material-symbols-outlined {

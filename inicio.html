@@ -10,7 +10,45 @@
      <!-- Fuente de Google -->
      <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=local_florist" />
-
+    <style>
+        :root {
+            --dark-color: #8acb88; /* Un verde pastel en vez de negro */
+        }
+        body {
+            background-color: #e0f2fe !important; 
+        }
+        .night {
+            background-image: 
+                radial-gradient(circle at top right, #ffe5b4 0%, transparent 60%),
+                radial-gradient(circle at bottom left, #ffb6b9 0%, transparent 60%),
+                linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%) !important;
+            filter: none !important;
+            opacity: 1 !important;
+            z-index: -10;
+        }
+        .message {
+            background: rgba(255, 255, 255, 0.85) !important;
+            color: #d946ef !important; /* Un rosa vibrante primaveral */
+            box-shadow: 0 8px 32px rgba(217, 70, 239, 0.15) !important;
+            backdrop-filter: blur(8px);
+            border: 2px solid #fbcfe8 !important;
+        }
+        
+        /* 🌟 Confeti Tradicional de Colores */
+        @keyframes confettiFall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+        .confetti-piece {
+            position: fixed;
+            top: -20px;
+            z-index: 1000;
+            pointer-events: none;
+            width: 12px;
+            height: 12px;
+            animation: confettiFall linear infinite;
+        }
+    </style>
 </head>
 
 <body>
@@ -311,35 +349,77 @@
         </div>
       </div>
     </div>
-    <div class="message">Estas flores amarillas son para ti mi preciosa Lupita 🌻</div>
+    <div class="message" id="flowerMessage">Estas flores amarillas son para ti <span id="nomPerson">mi preciosa Lupita</span> 🌻</div>
 
 
-    <button title="INICIO" id="home-button" onclick="window.location.href='index.html'">
+    <button title="INICIO" id="home-button" onclick="navigateTo('index.html')" style="background: linear-gradient(135deg, #f6d654 0%, #eab308 100%); color: #422006; border: none; box-shadow: 0 4px 15px rgba(246,214,84,0.4);">
       <i class="fa-solid fa-house"></i>
   </button>
   
-  <button title="VER TULIPÁN" id="tulipan-button" onclick="window.location.href='tulipan.html'">
+  <button title="VER TULIPÁN" id="tulipan-button" onclick="navigateTo('tulipan.html')" style="background: linear-gradient(135deg, #f6d654 0%, #eab308 100%); color: #422006; border: none; box-shadow: 0 4px 15px rgba(246,214,84,0.4);">
       <span class="material-symbols-outlined">local_florist</span>
   </button>
   
-  <button title="VER GIRASOL" id="girasol-button" onclick="window.location.href='girasol.html'">
+  <button title="VER GIRASOL" id="girasol-button" onclick="navigateTo('girasol.html')" style="background: linear-gradient(135deg, #f6d654 0%, #eab308 100%); color: #422006; border: none; box-shadow: 0 4px 15px rgba(246,214,84,0.4);">
     <span class="material-symbols-outlined">local_florist</span>
 </button>
 
-<button title="SUGARBOO" id="sugar-button" onclick="window.location.href='sugarboo.html'">
+<button title="SUGARBOO" id="sugar-button" onclick="navigateTo('sugarboo.html')" style="background: linear-gradient(135deg, #f6d654 0%, #eab308 100%); color: #422006; border: none; box-shadow: 0 4px 15px rgba(246,214,84,0.4);">
   <i class="fa-solid fa-heart"></i>
 </button>
-  
-
-  
-  
-    
-
-
 
     <script>
-        onload = () =>{
-        document.body.classList.remove("container");
-};
+        // Función para generar confeti colorido (cuadrícula y círculos)
+        function createColorConfetti() {
+            const colors = ['#f472b6', '#34d399', '#fbbf24', '#60a5fa', '#a78bfa', '#f87171']; // Colores vibrantes (rosa, verde menta, amarillo, azul, violeta, rojo sandía)
+            const confettiCount = window.innerWidth < 768 ? 40 : 80;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti-piece');
+                
+                // Distribución horizontal y aleatoria
+                confetti.style.left = Math.random() * 100 + 'vw';
+                
+                // Variación de velocidad y retardo
+                confetti.style.animationDuration = (Math.random() * 3 + 2.5) + 's';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                
+                // Color aleatorio
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Algunos cuadrados, algunos círculos
+                if (Math.random() > 0.4) confetti.style.borderRadius = '50%';
+                
+                // Variación de tamaños
+                const size = (Math.random() * 8 + 6) + 'px';
+                confetti.style.width = size;
+                confetti.style.height = size;
+                
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Función para mantener los parámetros en la URL al navegar
+        function navigateTo(page) {
+            const currentParams = window.location.search;
+            window.location.href = page + currentParams;
+        }
+
+        window.onload = () => {
+            // Generar el confeti tradicional de colores
+            createColorConfetti();
+
+            document.body.classList.remove("container");
+            
+            // Leer parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('n');
+            
+            // Si hay un nombre, actualizar el mensaje
+            if (nameParam) {
+                document.getElementById('nomPerson').textContent = nameParam;
+            }
+        };
     </script>
   </body>
