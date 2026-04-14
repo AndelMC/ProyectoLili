@@ -138,7 +138,7 @@
                             <button onclick="copiarLink()" class="flex-1 bg-white border border-stone-300 hover:bg-stone-50 text-stone-800 py-3 rounded-xl font-body font-semibold transition-colors flex items-center justify-center gap-2">
                                 <span class="material-symbols-outlined text-sm">content_copy</span> Copiar
                             </button>
-                            <a id="previewLink" href="#" class="flex-1 gold-silk-gradient py-3 rounded-xl font-headline font-bold font-serif text-center transition-colors flex items-center justify-center gap-2 shadow-md">
+                            <a id="previewLink" href="#" target="_blank" class="flex-1 gold-silk-gradient py-3 rounded-xl font-headline font-bold font-serif text-center transition-colors flex items-center justify-center gap-2 shadow-md">
                                 <span class="material-symbols-outlined text-sm">visibility</span> Probar
                             </a>
                         </div>
@@ -258,18 +258,33 @@
 <script>
     // Lógica principal
     const urlParams = new URLSearchParams(window.location.search);
-    const nameParam = urlParams.get('n');
-    const petnameParam = urlParams.get('p');
-    const mParam = urlParams.get('m');
-    const qParam = urlParams.get('q');
-    const bParam = urlParams.get('b');
-    const fParam = urlParams.get('f');
+    let nameParam = urlParams.get('n');
+    let petnameParam = urlParams.get('p');
+    let mParam = urlParams.get('m');
+    let qParam = urlParams.get('q');
+    let bParam = urlParams.get('b');
+    let fParam = urlParams.get('f');
+
+    // Revisar si viene el parámetro unificado codificado en base64
+    if (urlParams.has('d')) {
+        try {
+            const data = JSON.parse(decodeURIComponent(escape(atob(urlParams.get('d')))));
+            if (data.n) nameParam = data.n;
+            if (data.p) petnameParam = data.p;
+            if (data.m) mParam = data.m;
+            if (data.q) qParam = data.q;
+            if (data.b) bParam = data.b;
+            if (data.f) fParam = data.f;
+        } catch (e) {
+            console.error("Link corrupto o ilegible", e);
+        }
+    }
     
     const seccionCreador = document.getElementById('seccion-creador');
     const seccionDestinatario = document.getElementById('seccion-destinatario');
     const ctaButton = document.getElementById('cta-button');
 
-    if (nameParam || petnameParam || mParam) {
+    if (nameParam || petnameParam || mParam || urlParams.has('d')) {
         // Es el destinatario
         // Mostrar la landing page de flores y ocultar creador
         seccionDestinatario.classList.remove('hidden');
@@ -302,16 +317,22 @@
             return;
         }
         
-        const params = new URLSearchParams();
-        if(nombre) params.set('n', nombre);
-        if(apodo) params.set('p', apodo);
-        if(mensaje) params.set('m', mensaje);
-        if(cita) params.set('q', cita);
-        if(cuerpo) params.set('b', cuerpo);
-        if(firma) params.set('f', firma);
+        const payloadData = {};
+        if (nombre) payloadData.n = nombre;
+        if (apodo) payloadData.p = apodo;
+        if (mensaje) payloadData.m = mensaje;
+        if (cita) payloadData.q = cita;
+        if (cuerpo) payloadData.b = cuerpo;
+        if (firma) payloadData.f = firma;
         
-        const baseUrl = window.location.origin + window.location.pathname;
-        const fullLink = baseUrl + '?' + params.toString();
+        // Empaquetar y codificar todos los parámetros de manera sutil
+        const base64Encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payloadData))));
+
+        const params = new URLSearchParams();
+        params.set('d', base64Encoded);
+        
+        const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
+        const fullLink = baseUrl + (baseUrl.endsWith('/') ? '?' : '/?') + params.toString();
         
         document.getElementById('resultadoLink').classList.remove('hidden');
         document.getElementById('textoLink').value = fullLink;

@@ -73,8 +73,18 @@
             createColorConfetti(); // Iniciar lluvia de confeti
             
             const urlParams = new URLSearchParams(window.location.search);
-            const petnameParam = urlParams.get('p');
-            const mensajeParam = urlParams.get('m');
+            let petnameParam = urlParams.get('p');
+            let mensajeParam = urlParams.get('m');
+
+            if (urlParams.has('d')) {
+                try {
+                    const data = JSON.parse(decodeURIComponent(escape(atob(urlParams.get('d')))));
+                    if (data.p) petnameParam = data.p;
+                    if (data.m) mensajeParam = data.m;
+                } catch (e) {
+                    console.error("Link corrupto", e);
+                }
+            }
             
             if (petnameParam) {
                 document.getElementById('petnameText').textContent = petnameParam;

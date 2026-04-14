@@ -414,7 +414,16 @@
             
             // Leer parámetros de la URL
             const urlParams = new URLSearchParams(window.location.search);
-            const nameParam = urlParams.get('n');
+            let nameParam = urlParams.get('n');
+
+            if (urlParams.has('d')) {
+                try {
+                    const data = JSON.parse(decodeURIComponent(escape(atob(urlParams.get('d')))));
+                    if (data.n) nameParam = data.n;
+                } catch (e) {
+                    console.error("Link corrupto", e);
+                }
+            }
             
             // Si hay un nombre, actualizar el mensaje
             if (nameParam) {
